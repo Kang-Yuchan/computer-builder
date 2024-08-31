@@ -1,8 +1,13 @@
+import Header from "./components/header"
+
 function App() {
   return (
-    <div>
+   <>
+	 	<Header />
+		<main>
 			Computer Builder
-		</div>
+		</main>
+	 </>
   )
 }
 
