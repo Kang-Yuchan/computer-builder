@@ -8,3 +8,8 @@ export type ComputerPart = {
 };
 
 export type PartType = 'cpu' | 'gpu' | 'ram' | 'ssd' | 'hdd';
+
+export type Option = {
+  value: string;
+  label: string;
+};
