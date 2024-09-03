@@ -21,7 +21,7 @@ export default function CustomSelect({
   };
 
   return (
-    <div className="flex items-center">
+    <div className="flex w-1/4 items-center">
       <label htmlFor={`select-${label}`} className="mr-4 text-xl font-medium">
         {label}
       </label>
@@ -29,7 +29,7 @@ export default function CustomSelect({
         id={`select-${label}`}
         value={selectedValue}
         onChange={handleChange}
-        className="block appearance-none rounded border border-gray-300 bg-white px-3 py-2 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
+        className="block w-full appearance-none rounded border border-gray-300 bg-white px-3 py-2 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
       >
         <option value="">-</option>
         {options.map((option) => (
