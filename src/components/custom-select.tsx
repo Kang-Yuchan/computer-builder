@@ -35,8 +35,8 @@ export default function CustomSelect({
         className="block w-full appearance-none rounded border border-gray-300 bg-white px-3 py-2 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
       >
         <option value="">-</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
+        {options.map((option, i) => (
+          <option key={`${option.value}-${i}`} value={option.value}>
             {option.label}
           </option>
         ))}

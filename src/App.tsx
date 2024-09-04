@@ -28,6 +28,7 @@ function App() {
     setSelectedRamBrand,
     setSelectedRamModel,
   } = useRam();
+
   return (
     <>
       <Header />

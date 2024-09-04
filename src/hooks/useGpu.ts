@@ -11,7 +11,10 @@ export const useGpu = () => {
 
   const gpuModelOptions: Option[] = useMemo(() => {
     const filteredGpus = gpus.filter((gpu) => gpu.Brand === selectedBrand);
-    return filteredGpus.map((gpu) => ({ value: gpu.Model, label: gpu.Model }));
+    return filteredGpus.map((gpu) => ({
+      value: gpu.Benchmark.toString(),
+      label: gpu.Model,
+    }));
   }, [selectedBrand]);
 
   useEffect(() => {

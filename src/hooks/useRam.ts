@@ -16,11 +16,18 @@ export const useRam = () => {
   const [selectedRamModel, setSelectedRamModel] = useState('');
 
   const ramModelOptions: Option[] = useMemo(() => {
-    const filteredRams = rams.filter(
-      (ram) =>
-        ram.Brand === selectedBrand && ram.Model.includes(`${selectedAmount}x`),
-    );
-    return filteredRams.map((ram) => ({ value: ram.Model, label: ram.Model }));
+    if (selectedAmount && selectedBrand) {
+      const filteredRams = rams.filter(
+        (ram) =>
+          ram.Brand === selectedBrand &&
+          ram.Model.includes(`${selectedAmount}x`),
+      );
+      return filteredRams.map((ram) => ({
+        value: ram.Benchmark.toString(),
+        label: ram.Model,
+      }));
+    }
+    return [];
   }, [selectedBrand, selectedAmount]);
 
   useEffect(() => {

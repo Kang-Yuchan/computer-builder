@@ -11,7 +11,10 @@ export const useCpu = () => {
 
   const cpuModelOptions: Option[] = useMemo(() => {
     const filteredCpus = cpus.filter((cpu) => cpu.Brand === selectedBrand);
-    return filteredCpus.map((cpu) => ({ value: cpu.Model, label: cpu.Model }));
+    return filteredCpus.map((cpu) => ({
+      value: cpu.Benchmark.toString(),
+      label: cpu.Model,
+    }));
   }, [selectedBrand]);
 
   useEffect(() => {
