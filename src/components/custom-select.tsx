@@ -22,7 +22,10 @@ export default function CustomSelect({
 
   return (
     <div className="flex w-1/4 items-center">
-      <label htmlFor={`select-${label}`} className="mr-4 text-xl font-medium">
+      <label
+        htmlFor={`select-${label}`}
+        className="mr-4 whitespace-nowrap text-xl font-medium"
+      >
         {label}
       </label>
       <select

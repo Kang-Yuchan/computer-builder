@@ -10,8 +10,8 @@ export const useGpu = () => {
   const [selectedGpuModel, setSelectedGpuModel] = useState('');
 
   const gpuModelOptions: Option[] = useMemo(() => {
-    const filteredgpus = gpus.filter((gpu) => gpu.Brand === selectedBrand);
-    return filteredgpus.map((gpu) => ({ value: gpu.Model, label: gpu.Model }));
+    const filteredGpus = gpus.filter((gpu) => gpu.Brand === selectedBrand);
+    return filteredGpus.map((gpu) => ({ value: gpu.Model, label: gpu.Model }));
   }, [selectedBrand]);
 
   useEffect(() => {
