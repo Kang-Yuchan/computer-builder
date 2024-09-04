@@ -13,3 +13,5 @@ export type Option = {
   value: string;
   label: string;
 };
+
+export type StorageType = 'HDD' | 'SSD';

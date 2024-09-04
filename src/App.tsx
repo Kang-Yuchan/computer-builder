@@ -4,6 +4,7 @@ import Section from './components/section';
 import { useCpu } from './hooks/useCpu';
 import { useGpu } from './hooks/useGpu';
 import { useRam } from './hooks/useRam';
+import { useStorage } from './hooks/useStorage';
 
 function App() {
   const {
@@ -28,6 +29,17 @@ function App() {
     setSelectedRamBrand,
     setSelectedRamModel,
   } = useRam();
+
+  const {
+    storageOptions,
+    setSelectedStorage,
+    storageKindsOptions,
+    setSelectedStorageKind,
+    storageBrandOptions,
+    setSelectedStorageBrand,
+    storageModelOptions,
+    setSelectedStorageModel,
+  } = useStorage();
 
   return (
     <>
@@ -77,6 +89,30 @@ function App() {
               options={ramModelOptions}
               label="Model"
               onChange={setSelectedRamModel}
+            />
+          </div>
+        </Section>
+        <Section title="step3: Select Your Memory Card">
+          <div className="ml-2 flex gap-4 py-2">
+            <CustomSelect
+              options={storageOptions}
+              label="HDD or SSD"
+              onChange={setSelectedStorage}
+            />
+            <CustomSelect
+              options={storageKindsOptions}
+              label="Storage"
+              onChange={setSelectedStorageKind}
+            />
+            <CustomSelect
+              options={storageBrandOptions}
+              label="Brand"
+              onChange={setSelectedStorageBrand}
+            />
+            <CustomSelect
+              options={storageModelOptions}
+              label="Model"
+              onChange={setSelectedStorageModel}
             />
           </div>
         </Section>

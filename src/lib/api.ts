@@ -1,4 +1,4 @@
-import { ComputerPart, PartType } from '../types';
+import { ComputerPart, PartType, StorageType } from '../types';
 
 const BASE_URL = 'https://api.recursionist.io/builder/computers?type=';
 
@@ -22,10 +22,8 @@ export const fetchRams = async (): Promise<ComputerPart[]> => {
   return fetcher<ComputerPart[]>('ram');
 };
 
-export const fetchSsds = async (): Promise<ComputerPart[]> => {
-  return fetcher<ComputerPart[]>('ssd');
-};
-
-export const fetchHdds = async (): Promise<ComputerPart[]> => {
-  return fetcher<ComputerPart[]>('hdd');
+export const fetchStorages = async (
+  storage: StorageType,
+): Promise<ComputerPart[]> => {
+  return fetcher<ComputerPart[]>(storage.toLocaleLowerCase() as PartType);
 };
