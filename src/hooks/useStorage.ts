@@ -1,5 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ComputerPart, Option, StorageType } from '../types';
+import {
+  ComputerPart,
+  Option,
+  SelectedOption,
+  SelectedPart,
+  StorageType,
+} from '../types';
 import { fetchStorages } from '../lib/api';
 
 const storageOptions: Option[] = ['HDD', 'SSD'].map((storage) => ({
@@ -11,16 +17,30 @@ export const useStorage = () => {
   const [storageKindsOptions, setStorageKindsOptions] = useState<Option[]>([]);
   const [storageModels, setStorageModels] = useState<ComputerPart[]>([]);
 
-  const [selectedStorage, setSelectedStorage] = useState('');
-  const [selectedStorageKind, setSelectedStorageKind] = useState('');
-  const [selectedBrand, setSelectedBrand] = useState('');
-  const [selectedStorageModel, setSelectedStorageModel] = useState('');
+  const [selectedStorage, setSelectedStorage] = useState<SelectedOption>({
+    value: '',
+    label: '',
+  });
+  const [selectedStorageKind, setSelectedStorageKind] =
+    useState<SelectedOption>({
+      value: '',
+      label: '',
+    });
+  const [selectedBrand, setSelectedBrand] = useState<SelectedOption>({
+    value: '',
+    label: '',
+  });
+  const [selectedStorageModel, setSelectedStorageModel] =
+    useState<SelectedOption>({
+      value: '',
+      label: '',
+    });
 
   const storageBrandOptions: Option[] = useMemo(() => {
     if (storageModels.length > 0 && selectedStorageKind) {
       const brandSet = new Set(
         storageModels
-          .filter((storage) => storage.Type === selectedStorage)
+          .filter((storage) => storage.Type === selectedStorage.value)
           .map((storage) => storage.Brand),
       );
       const brandArray = Array.from(brandSet);
@@ -31,12 +51,12 @@ export const useStorage = () => {
   }, [selectedStorage, storageModels, selectedStorageKind]);
 
   const storageModelOptions: Option[] = useMemo(() => {
-    if (selectedBrand && selectedStorageKind) {
+    if (selectedBrand.value && selectedStorageKind.value) {
       const filteredStorageModels = storageModels.filter(
         (storage) =>
-          storage.Brand === selectedBrand &&
-          storage.Type === selectedStorage &&
-          storage.Model.includes(selectedStorageKind),
+          storage.Brand === selectedBrand.value &&
+          storage.Type === selectedStorage.value &&
+          storage.Model.includes(selectedStorageKind.value),
       );
       return filteredStorageModels.map((storage) => ({
         value: storage.Benchmark.toString(),
@@ -45,6 +65,21 @@ export const useStorage = () => {
     }
     return [];
   }, [selectedBrand, selectedStorage, selectedStorageKind]);
+
+  const storageModel:
+    | (SelectedPart & { storageType: StorageType; storageCapacity: string })
+    | undefined = useMemo(() => {
+    if (selectedStorageModel.value && selectedBrand.value) {
+      return {
+        name: selectedStorageModel.label,
+        brand: selectedBrand.value,
+        benchMark: Number(selectedStorageModel.value),
+        storageType: selectedStorage.value as StorageType,
+        storageCapacity: selectedStorageKind.value,
+      };
+    }
+    return undefined;
+  }, [selectedStorageModel, selectedBrand]);
 
   useEffect(() => {
     const fetchData = async (storage: StorageType) => {
@@ -77,7 +112,7 @@ export const useStorage = () => {
       }
     };
     if (selectedStorage) {
-      fetchData(selectedStorage as StorageType);
+      fetchData(selectedStorage.value as StorageType);
     }
   }, [selectedStorage]);
 
@@ -90,6 +125,6 @@ export const useStorage = () => {
     setSelectedStorageBrand: setSelectedBrand,
     storageModelOptions,
     setSelectedStorageModel,
-    selectedStorageModel,
+    storageModel,
   };
 };

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ComputerPart, Option } from '../types';
+import { ComputerPart, Option, SelectedOption, SelectedPart } from '../types';
 import { fetchRams } from '../lib/api';
 
 const ramAmountOptions: Option[] = [1, 2, 3, 4].map((num) => ({
@@ -11,16 +11,25 @@ export const useRam = () => {
   const [ramBrandsOptions, setRamBrandOptions] = useState<Option[]>([]);
   const [rams, setRams] = useState<ComputerPart[]>([]);
 
-  const [selectedAmount, setSelectedAmount] = useState('');
-  const [selectedBrand, setSelectedBrand] = useState('');
-  const [selectedRamModel, setSelectedRamModel] = useState('');
+  const [selectedAmount, setSelectedAmount] = useState<SelectedOption>({
+    value: '',
+    label: '',
+  });
+  const [selectedBrand, setSelectedBrand] = useState<SelectedOption>({
+    value: '',
+    label: '',
+  });
+  const [selectedRamModel, setSelectedRamModel] = useState<SelectedOption>({
+    value: '',
+    label: '',
+  });
 
   const ramModelOptions: Option[] = useMemo(() => {
-    if (selectedAmount && selectedBrand) {
+    if (selectedAmount.value && selectedBrand.value) {
       const filteredRams = rams.filter(
         (ram) =>
-          ram.Brand === selectedBrand &&
-          ram.Model.includes(`${selectedAmount}x`),
+          ram.Brand === selectedBrand.value &&
+          ram.Model.includes(`${selectedAmount.value}x`),
       );
       return filteredRams.map((ram) => ({
         value: ram.Benchmark.toString(),
@@ -29,6 +38,17 @@ export const useRam = () => {
     }
     return [];
   }, [selectedBrand, selectedAmount]);
+
+  const ramModel: SelectedPart | undefined = useMemo(() => {
+    if (selectedBrand.value && selectedRamModel.value) {
+      return {
+        name: selectedRamModel.label,
+        brand: selectedBrand.value,
+        benchMark: Number(selectedRamModel.value),
+      };
+    }
+    return undefined;
+  }, [selectedBrand, selectedRamModel]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,5 +77,6 @@ export const useRam = () => {
     ramModelOptions,
     setSelectedRamModel,
     selectedRamModel,
+    ramModel,
   };
 };
